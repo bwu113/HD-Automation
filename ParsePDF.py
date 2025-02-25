@@ -4,7 +4,6 @@ import CleanData
 import tkinter
 from tkinter import filedialog
 from tkinter import messagebox
-from tkinter import simpledialog
 
 root = tkinter.Tk()
 root.withdraw()

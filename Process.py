@@ -61,7 +61,10 @@ def insertExcel(PackingList):
             wks.range(currRow,currCol).value = "SOLD TO :"
             wks.range(currRow-1,currCol+1).value = "Home Depot"
     #Delivery Information
-            wks.range(currRow,currCol+1).value = [[item["name"]],[item["street"]],[item["cityzip"]],[item["phone"]]]
+            if("storenum" in  item):
+                wks.range(currRow,currCol+1).value = [[item["name"]],[item["storenum"]],[item["street"]],[item["cityzip"]],[item["phone"]]]
+            else:
+                wks.range(currRow,currCol+1).value = [[item["name"]],[item["street"]],[item["cityzip"]],[item["phone"]]]
     #Invoice / Date /Salesman Labels
             if("sean" in item["orderby"].lower()):
                 wks.range(currRow-1,currCol+4).value = "HD Connect"

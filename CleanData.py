@@ -10,6 +10,7 @@ def cleanPackingList(rawData):
     
     #Cleaning phase 1
     for listItem in rawData.values(): #Cleaning lines using indices and removing excess info
+        print(listItem)
         #listItem.append("#" + str(len(listItem)))
         listItem[1] = listItem[1].split(" ")[2] # Keeps PO# only
         listItem[2] = listItem[2].split(" ")[3] # Keeps Customer Order # Only
