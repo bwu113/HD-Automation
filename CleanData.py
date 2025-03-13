@@ -94,31 +94,31 @@ def cleanPackingList(rawData):
                 packingList[page].update({constList[ele]:items[ele]})
         page+=1
     #print(packingList.values())
-    # for list in packingList.values():
-    #     if("-BS" in list['sku'] or "-MIR" in list['sku']):
-    #         splitSKU = list['sku'].split("-")
-    #         newSKU = ""
-    #         for i in splitSKU:
-    #             match i:
-    #                 case "BS":
-    #                     list.update({"bs":"y"})
-    #                 case "MIR":
-    #                     list.update({"mir":"y"})
-    #                 case _:
-    #                     newSKU += i + "-"
-    #         list["sku"] = newSKU.rstrip("-")
-    #     if("sku2" in list):
-    #         if("-BS" in list['sku2'] or "-MIR" in list['sku2']):
-    #             newSKU = ""
-    #             for i in splitSKU:
-    #                 match i:
-    #                     case "BS":
-    #                         list.update({"bs2":"y"})
-    #                     case "MIR":
-    #                         list.update({"mir2":"y"})
-    #                     case _:
-    #                         newSKU += i + "-"
-    #             list["sku2"] = newSKU.rstrip("-")
-    #     print(list)
+    for list in packingList.values():
+        if("-BS" in list['sku'] or "-MIR" in list['sku']):
+            splitSKU = list['sku'].split("-")
+            newSKU = ""
+            for i in splitSKU:
+                match i:
+                    case "BS":
+                        list.update({"bs":"y"})
+                    case "MIR":
+                        list.update({"mir":"y"})
+                    case _:
+                        newSKU += i + "-"
+            list["sku"] = newSKU.rstrip("-")
+        if("sku2" in list):
+            if("-BS" in list['sku2'] or "-MIR" in list['sku2']):
+                newSKU = ""
+                for i in splitSKU:
+                    match i:
+                        case "BS":
+                            list.update({"bs2":"y"})
+                        case "MIR":
+                            list.update({"mir2":"y"})
+                        case _:
+                            newSKU += i + "-"
+                list["sku2"] = newSKU.rstrip("-")
+        #print(list)
 
     Process.insertExcel(packingList)

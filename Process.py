@@ -85,45 +85,53 @@ def insertExcel(PackingList):
                 untPrice = simpledialog.askstring(title=" ", prompt=item['name'] + "\nEnter Unit Price")
             totalPrice = float(untPrice) * float(item['qty'])
     #Order Information
-            #Enters normally for single items with no addons
+            #Enters normally for single sku orders with no addons
             wks.range(currRow+10,currCol-1).value = [item["qty"],"pcs",item["sku"].rstrip("-"),item["desc"], untPrice, totalPrice]
             #Enters Backsplash or Mirror addons
-            # if("bs" in item and "mir" in item):
-            #     wks.range(currRow+11,currCol-1).value = [item["qty"],"pcs","BS","Matching Backsplash","Inclusive"]
-            #     wks.range(currRow+12,currCol-1).value = [item["qty"],"pcs","MIR","Matching Mirror","Inclusive"]
-            #     if("sku2" in item):
-            #         untPrice = simpledialog.askstring(title="Second Unit Price", prompt="Enter Unit Price For Second SKU")
-            #         while(untPrice == "" or untPrice is None):
-            #             untPrice = simpledialog.askstring(title="Second Unit Price", prompt="Enter Unit Price For Second SKU")
-            #         totalPrice = float(untPrice) * float(item['qty2'])
-            #         wks.range(currRow+13,currCol-1).value = [item["qty2"],"pcs",item["sku2"].rstrip("-"),item["desc2"], untPrice, totalPrice]
-            # elif("bs" in item):
-            #     wks.range(currRow+11,currCol-1).value = [item["qty"],"pcs","BS","Matching Backsplash","Inclusive"]
-            #     if("sku2" in item):
-            #         untPrice = simpledialog.askstring(title="Second Unit Price", prompt="Enter Unit Price For Second SKU")
-            #         while(untPrice == "" or untPrice is None):
-            #             untPrice = simpledialog.askstring(title="Second Unit Price", prompt="Enter Unit Price For Second SKU")
-            #         totalPrice = float(untPrice) * float(item['qty2'])
-            #         wks.range(currRow+12,currCol-1).value = [item["qty2"],"pcs",item["sku2"].rstrip("-"),item["desc2"], untPrice, totalPrice]
-            #         if("bs2" in item):
-            #             wks.range(currRow+13,currCol-1).value = [item["qty2"],"pcs","BS","Matching Backsplash","Inclusive"]
-            # elif("mir" in item):
-            #     wks.range(currRow+11,currCol-1).value = [item["qty"],"pcs","MIR","Matching Mirror","Inclusive"]
-            #     if("sku2" in item):
-            #         untPrice = simpledialog.askstring(title="Second Unit Price", prompt="Enter Unit Price For Second SKU")
-            #         while(untPrice == "" or untPrice is None):
-            #             untPrice = simpledialog.askstring(title="Second Unit Price", prompt="Enter Unit Price For Second SKU")
-            #         totalPrice = float(untPrice) * float(item['qty2'])
-            #         wks.range(currRow+12,currCol-1).value = [item["qty2"],"pcs",item["sku2"].rstrip("-"),item["desc2"], untPrice, totalPrice]
-            #         if("bs2" in item):
-            #             wks.range(currRow+13,currCol-1).value = [item["qty2"],"pcs","BS","Matching Backsplash","Inclusive"]
-            
+            if("bs" in item and "mir" in item):
+                wks.range(currRow+11,currCol-1).value = [item["qty"],"pcs","BS","Matching Backsplash","Inclusive",""]
+                wks.range(currRow+12,currCol-1).value = [item["qty"],"pcs","MIR","Matching Mirror","Inclusive",""]
+            elif("bs" in item or "mir" in item):
+                if("bs" in item):
+                    wks.range(currRow+11,currCol-1).value = [item["qty"],"pcs","BS","Matching Backsplash","Inclusive",""]
+                elif("mir" in item):
+                    wks.range(currRow+11,currCol-1).value = [item["qty"],"pcs","MIR","Matching Mirror","Inclusive",""]  
             if("sku2" in item):
                 untPrice = simpledialog.askstring(title="Second Unit Price", prompt="Enter Unit Price For Second SKU")
                 while(untPrice == "" or untPrice is None):
                     untPrice = simpledialog.askstring(title="Second Unit Price", prompt="Enter Unit Price For Second SKU")
                 totalPrice = float(untPrice) * float(item['qty2'])
-                wks.range(currRow+11,currCol-1).value = [item["qty2"],"pcs",item["sku2"].rstrip("-"),item["desc2"], untPrice, totalPrice]
+                if(not wks.range(currRow+11,currCol-1).value): #Checks if row below 1st sku is empty or not proceeds if its empty.
+                    wks.range(currRow+11,currCol-1).value = [item["qty2"],"pcs",item["sku2"].rstrip("-"),item["desc2"], untPrice, totalPrice]
+                    if("bs2" in item and "mir2" in item):
+                        wks.range(currRow+12,currCol-1).value = [item["qty2"],"pcs","BS","Matching Backsplash","Inclusive",""]
+                        wks.range(currRow+13,currCol-1).value = [item["qty2"],"pcs","MIR","Matching Mirror","Inclusive",""]
+                    elif("bs2" in item or "mir2" in item):
+                        if("bs2" in item):
+                            wks.range(currRow+12,currCol-1).value = [item["qty2"],"pcs","BS","Matching Backsplash","Inclusive",""]
+                        elif("mir2" in item):
+                            wks.range(currRow+12,currCol-1).value = [item["qty2"],"pcs","MIR","Matching Mirror","Inclusive",""]
+                elif(wks.range(currRow+11,currCol-1).value and not wks.range(currRow+12,currCol-1).value): #Checks if 2nd row below 1st sku is empty or not. proceeds if both are taken.
+                    wks.range(currRow+12,currCol-1).value = [item["qty2"],"pcs",item["sku2"].rstrip("-"),item["desc2"], untPrice, totalPrice]
+                    if("bs2" in item and "mir2" in item):
+                        wks.range(currRow+13,currCol-1).value = [item["qty2"],"pcs","BS","Matching Backsplash","Inclusive",""]
+                        wks.range(currRow+14,currCol-1).value = [item["qty2"],"pcs","MIR","Matching Mirror","Inclusive",""]
+                    elif("bs2" in item or "mir2" in item):
+                        if("bs2" in item):
+                            wks.range(currRow+13,currCol-1).value = [item["qty2"],"pcs","BS","Matching Backsplash","Inclusive",""]
+                        elif("mir2" in item):
+                            wks.range(currRow+13,currCol-1).value = [item["qty2"],"pcs","MIR","Matching Mirror","Inclusive",""]
+                elif(wks.range(currRow+11,currCol-1).value and wks.range(currRow+12,currCol-1).value):
+                    wks.range(currRow+13,currCol-1).value = [item["qty2"],"pcs",item["sku2"].rstrip("-"),item["desc2"], untPrice, totalPrice]
+                    if("bs2" in item and "mir2" in item):
+                        wks.range(currRow+14,currCol-1).value = [item["qty2"],"pcs","BS","Matching Backsplash","Inclusive",""]
+                        wks.range(currRow+15,currCol-1).value = [item["qty2"],"pcs","MIR","Matching Mirror","Inclusive",""]
+                    elif("bs2" in item or "mir2" in item):
+                        if("bs2" in item):
+                            wks.range(currRow+14,currCol-1).value = [item["qty2"],"pcs","BS","Matching Backsplash","Inclusive",""]
+                        elif("mir2" in item):
+                            wks.range(currRow+14,currCol-1).value = [item["qty2"],"pcs","MIR","Matching Mirror","Inclusive",""]
+
     #Tracking Info
             #Left Labels
             wks.range(currRow+18,currCol).value = "Trucking(LTL) company"
@@ -145,7 +153,7 @@ def insertExcel(PackingList):
             wks.range(currRow+35,currCol+3).value = [["Sub. Total"],["Sales Tax"],["Total"]]
             #Right Half
             if("sku2" in item):
-                subTotal = float(wks.range(currRow+10,currCol+4).value) + wks.range(currRow+11,currCol+4).value
+                subTotal = float(wks.range(currRow+10,currCol+4).value) + float(wks.range(currRow+11,currCol+4).value)
             else:
                 subTotal = wks.range(currRow+10,currCol+4).value
             wks.range(currRow+35,currCol+4).value = subTotal
