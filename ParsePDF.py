@@ -22,7 +22,7 @@ else:
 
 rawPackingList = {}
 
-
+#print(doc[3].get_text("blocks"))
 
 def parsePDF():
     pageLines = []
@@ -36,8 +36,10 @@ def parsePDF():
         for line2 in range(66,71): # "Ship To" Details
             if("Address Type" not in pgText[line2][4]):
                 pageLines.append(pgText[line2][4].strip())
-        for line3 in range(72,len(pgText)-2): # Sku, Internet #, Description, Qty
-            if("Internet Number" not in pgText[line3][4]) and "Address Type" not in pgText[line3][4]:
+        for line3 in range(72,len(pgText)): # Sku, Internet #, Description, Qty
+            if("Return Code" in pgText[line3][4]):
+                break
+            elif("Model Number" not in pgText[line3][4]):
                 pageLines.append(pgText[line3][4].strip())
         rawPackingList[page] = pageLines
         page += 1
@@ -47,9 +49,14 @@ def parsePDF():
         if("Ship to Store" in list[4]):
             list[3] += "-" + list[4].split(" ")[5]
             list.remove(list[4])
+        if("apt" in list[5].lower() or "apt." in list[5].lower()):
+            list[4] += " " + list[5]
+            list.remove(list[5])
         if(len(list) == 12): #combine separated skus and remove dupe
             list[7] += list[8]
             list.remove(list[8])
+        if("Address Type" in list[7]):
+            list.remove(list[7])
         elif(len(list) == 14): #remove extra element from end.
             list.remove(list[len(list)-1]) 
         #print(list)
