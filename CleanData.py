@@ -74,7 +74,7 @@ def cleanPackingList(rawData):
         else:
             listItem.insert(len(listItem),"Error")
         pageList.append(listItem)
-        print(listItem)
+        #print(listItem)
 
     #Cleaning Phase 2
     for items in pageList:
